@@ -2,7 +2,20 @@ import { ThumbsUp, Trash } from "phosphor-react";
 import React from "react";
 import styles from "./comment.module.css";
 
-export default function Comment() {
+type CommentProps = {
+  comment: string;
+  onRemoveCommentPress: () => void;
+};
+
+export default function Comment({
+  comment,
+  onRemoveCommentPress,
+}: CommentProps) {
+  const [likeCount, setLikeCount] = React.useState(0);
+
+  function handleLike() {
+    setLikeCount(likeCount + 1);
+  }
   return (
     <div className={styles.comment}>
       <img src="https://github.com/danielsousast.png" alt="" />
@@ -13,17 +26,17 @@ export default function Comment() {
               <strong>Daniel de Sousa Santos</strong>
               <time dateTime="2022-05-08">Publicado há 1h</time>
             </div>
-            <button title="Deletar comentário">
+            <button title="Deletar comentário" onClick={onRemoveCommentPress}>
               <Trash size={22} />
             </button>
           </header>
-          <p>Muito bom, parabéns!</p>
+          <p>{comment}</p>
         </div>
 
         <footer>
-          <button>
+          <button onClick={handleLike}>
             <ThumbsUp />
-            Aplaudir <span>20</span>
+            Aplaudir <span>{likeCount}</span>
           </button>
         </footer>
       </div>
